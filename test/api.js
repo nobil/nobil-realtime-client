@@ -23,6 +23,19 @@ tap.test('key parameter not provided - result should throw assert error', (t) =>
 });
 
 
+tap.test('option object with key provided - result should be an Object', (t) => {
+    t.type(new Client({key:'somekey'}), 'object');
+    t.end();
+});
+
+
+tap.test('option object without uri provided - .uri should be http://realtime.nobil.no/api/v1/rest', (t) => {
+    var  client = new Client({key:'somekey'});
+    t.equal(client.uri, 'http://realtime.nobil.no/api/v1/rest');
+    t.end();
+});
+
+
 
 
 /*
