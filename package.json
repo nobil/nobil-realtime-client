@@ -4,7 +4,7 @@
   "description": "Client for the Nobil realtime API",
   "main": "lib/client.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js --cov"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "ws": "1.0.1"
   },
   "devDependencies": {
-    "nock": "7.0.0",
-    "tap": "5.1.1"
+    "nock": "6.0.1",
+    "tap": "5.2.0"
   }
 }

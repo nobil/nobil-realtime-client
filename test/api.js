@@ -2,6 +2,7 @@
 
 const Client = require('../').Api,
       stream = require('readable-stream'),
+      utils = require('../lib/utils.js'),
       nock = require('nock'),
       tap = require('tap');
 
@@ -122,7 +123,7 @@ tap.test('.getChargers() - get all - callback should hold an array of chargers o
 });
 
 
-tap.test('.getCharger() - provide charger id - callback should hold one charger on the second attribute', (t) => {
+tap.test('.getCharger() - provide valid charger id - callback should hold one charger on the second attribute', (t) => {
     let scope = nock('http://realtime.nobil.no')
                     .get('/api/v1/rest/charger/NOR_01523')
                     .reply(200, mockCharger);
@@ -135,7 +136,28 @@ tap.test('.getCharger() - provide charger id - callback should hold one charger 
 });
 
 
-tap.test('.getCountry() - provide country id - callback should hold an array of chargers on the second attribute', (t) => {
+
+
+
+tap.test('.getCharger() - provide wrongly formated charger id - callback should hold "Error" on first attribute and "undefined on second"', (t) => {
+    let scope = nock('http://realtime.nobil.no')
+                    .get('/api/v1/rest/charger/NOR_0')
+                    .reply(400, {status : '400 - Bad request'});
+    
+    let client = new Client({key:'somekey'});
+    client.getCharger('NOR_0', (error, result) => {
+        t.ok(error instanceof Error);
+        t.equal(result, undefined);
+        t.end();        
+    });
+});
+
+
+
+
+
+
+tap.test('.getCountry() - provide valid country id - callback should hold an array of chargers on the second attribute', (t) => {
     let scope = nock('http://realtime.nobil.no')
                     .get('/api/v1/rest/chargers/FIN')
                     .reply(200, mockAll);
